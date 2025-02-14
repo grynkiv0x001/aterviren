@@ -1,15 +1,21 @@
+import { signIn } from "@/auth";
 import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 
-import { signIn } from "@/auth"
+const SignIn = async () => {
+  const session = await auth();
 
-const SignIn = () => {
+  if (session) {
+    redirect("/");
+  }
+
   return (
     <form
       className="flex flex-col items-center justify-center h-screen"
       action={async () => {
         'use server';
 
-        await signIn('spotify').then(() => redirect('/'));
+        await signIn('spotify', { redirectTo: '/' });
       }}
     >
       <h1 className="mb-4">Sign in</h1>
@@ -21,6 +27,6 @@ const SignIn = () => {
       </button>
     </form>
   );
-}
+};
 
 export default SignIn;

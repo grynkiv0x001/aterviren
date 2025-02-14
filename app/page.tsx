@@ -1,5 +1,8 @@
 import { redirect } from "next/navigation";
+
 import { auth } from "@/auth";
+
+import { TopTracks } from "@/src/components";
 
 export default async function Home() {
   const session = await auth();
@@ -11,9 +14,9 @@ export default async function Home() {
   const data = await fetch('https://api.spotify.com/v1/me', {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${session.access_token}`
-    }
-  })
+      Authorization: `Bearer ${session.accessToken}`,
+    },
+  });
 
   const user = await data.json();
 
@@ -21,14 +24,13 @@ export default async function Home() {
     return null;
   }
 
-  console.log('user: ', user);
-
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
-      aterviren project
+    <div className="flex flex-col justify-center items-center">
+      aterviren project (simple Spotify library client)
 
-      <main className="flex">
+      <main className="flex flex-col">
         <h1 className="text-5xl">Hello, {user.display_name}</h1>
+        <TopTracks/>
       </main>
     </div>
   );
