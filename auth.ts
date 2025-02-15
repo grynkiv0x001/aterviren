@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import Spotify from "next-auth/providers/spotify";
+import { redirect } from "next/navigation";
 
 export const { handlers, auth, signIn } = NextAuth({
   providers: [
@@ -16,7 +17,7 @@ export const { handlers, auth, signIn } = NextAuth({
           expires_at: account.expires_at,
           refresh_token: account.refresh_token,
         };
-      } else if (Date.now() < token.expires_at * 1000) {
+      } else if (Date.now() < (token.expires_at ?? 0) * 1000) {
         return token;
       } else {
         if (!token.refresh_token) throw new TypeError("Missing refresh_token");
@@ -25,8 +26,8 @@ export const { handlers, auth, signIn } = NextAuth({
           const response = await fetch("https://accounts.spotify.com/api/token", {
             method: "POST",
             body: new URLSearchParams({
-              client_id: process.env.AUTH_GOOGLE_ID!,
-              client_secret: process.env.AUTH_GOOGLE_SECRET!,
+              client_id: process.env.AUTH_SPOTIFY_ID!,
+              client_secret: process.env.AUTH_SPOTIFY_SECRET!,
               grant_type: "refresh_token",
               refresh_token: token.refresh_token!,
             }),
@@ -53,6 +54,7 @@ export const { handlers, auth, signIn } = NextAuth({
         } catch (error) {
           console.error("Error refreshing access_token", error);
           token.error = "RefreshTokenError";
+          redirect('/sign-in');
 
           return token;
         }
@@ -63,18 +65,3 @@ export const { handlers, auth, signIn } = NextAuth({
     },
   },
 });
-
-declare module "next-auth" {
-  interface Session {
-    error?: "RefreshTokenError"
-  }
-}
-
-declare module "next-auth/jwt" {
-  interface JWT {
-    access_token: string
-    expires_at: number
-    refresh_token?: string
-    error?: "RefreshTokenError"
-  }
-}

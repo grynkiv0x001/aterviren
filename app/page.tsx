@@ -1,27 +1,13 @@
 import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
-
 import { TopTracks } from "@/src/components";
+import { getUser } from "@/src/lib/api";
 
 export default async function Home() {
-  const session = await auth();
-
-  if (!session) {
-    redirect("/sign-in");
-  }
-
-  const data = await fetch('https://api.spotify.com/v1/me', {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${session.accessToken}`,
-    },
-  });
-
-  const user = await data.json();
+  const user = await getUser();
 
   if (!user) {
-    return null;
+    redirect("/sign-in");
   }
 
   return (

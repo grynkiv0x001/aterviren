@@ -1,11 +1,17 @@
-import { Session as ISession } from "next-auth";
+import { JWT as DefaultJWT } from "next-auth/jwt";
+import { Session as DefaultSession } from "next-auth";
 
 declare module "next-auth" {
-  interface Session extends ISession {
-    access_token?: string;
+  interface Session extends DefaultSession {
+    accessToken?: string;
   }
+}
 
-  interface JWT {
+declare module "next-auth/jwt" {
+  interface JWT extends DefaultJWT {
     access_token?: string;
+    expires_at?: number;
+    refresh_token?: string;
+    error?: string;
   }
 }
