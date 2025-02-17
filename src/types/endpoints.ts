@@ -1,6 +1,8 @@
-export const API_ENDPOINTS = {
+export const API_ENDPOINTS = (id?: string) => ({
   USER: '/me',
   TOP_TRACKS: '/me/top/tracks',
-} as const;
+  PLAYLISTS: '/me/playlists',
+  PLAYLIST_TRACKS: `/playlists/${id}/tracks`,
+}) as const;
 
-export type ApiEndpoint = keyof typeof API_ENDPOINTS;
+export type ApiEndpoint = keyof ReturnType<typeof API_ENDPOINTS>;

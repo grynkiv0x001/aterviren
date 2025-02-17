@@ -16,6 +16,10 @@ const eslintConfig = [
       "semi": ["error", "always"],
       "comma-dangle": ["error", "always-multiline"],
       "object-curly-spacing": ["error", "always"],
+      "react/jsx-tag-spacing": ["error", {
+        "beforeSelfClosing": "always",
+      }],
+      "indent": ["error", 2],
     },
   },
 ];

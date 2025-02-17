@@ -8,10 +8,7 @@ export const TopTracks = async () => {
     <section>
       <p>Top Tracks</p>
       {topTracks.items?.map((track) => (
-        <Track
-          key={track.id}
-          track={track}
-        />
+        <Track key={track.id} {...track} />
       ))}
     </section>
   );

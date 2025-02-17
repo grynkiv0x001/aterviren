@@ -17,3 +17,26 @@ export interface SpotifyUser {
     total: number;
   };
 }
+
+export interface SpotifyPlaylist {
+  description: string;
+  href: string;
+  id: string;
+  name: string;
+  public: boolean;
+  images: { url: string }[];
+}
+
+export interface SpotifyPlaylistsResponse {
+  items: SpotifyPlaylist[];
+}
+
+export interface SpotifyPlaylistsTrack {
+  added_at: string;
+  is_local: boolean;
+  track: SpotifyTrack;
+}
+
+export interface SpotifyPlaylistsTrackResponse {
+  items: SpotifyPlaylistsTrack[];
+}

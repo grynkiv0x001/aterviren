@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { TopTracks } from "@/src/components";
+import { Playlists, TopTracks } from "@/src/components";
 import { getUser } from "@/src/lib/api";
 
 export default async function Home() {
@@ -12,11 +12,12 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      aterviren project (simple Spotify library client)
-
       <main className="flex flex-col">
         <h1 className="text-5xl">Hello, {user.display_name}</h1>
-        <TopTracks/>
+        <div className="grid grid-cols-2">
+          <TopTracks />
+          <Playlists />
+        </div>
       </main>
     </div>
   );

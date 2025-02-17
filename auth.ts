@@ -2,10 +2,18 @@ import NextAuth from "next-auth";
 import Spotify from "next-auth/providers/spotify";
 import { redirect } from "next/navigation";
 
+const scopes = [
+  'user-top-read',
+  'user-modify-playback-state',
+  'user-read-playback-state',
+  'playlist-read-private',
+  'playlist-read-collaborative',
+];
+
 export const { handlers, auth, signIn } = NextAuth({
   providers: [
     Spotify({
-      authorization: "https://accounts.spotify.com/authorize?scope=user-top-read%20user-modify-playback-state%20user-read-playback-state",
+      authorization: `https://accounts.spotify.com/authorize?scope=${scopes.join('%20')}`,
     }),
   ],
   callbacks: {
