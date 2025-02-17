@@ -12,7 +12,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 
   return (
     <main className="flex flex-col justify-center items-center">
-      <h2>Tracks</h2>
+      <h3 className="text-3xl">Tracks</h3>
 
       <div>
         {data.items?.map(({ track }) => (
